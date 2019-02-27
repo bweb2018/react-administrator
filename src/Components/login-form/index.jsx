@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
-
+import propTypes from 'prop-types'
+import handlerAjax from '../../Pages/login'
 import {
   Form,
   Icon,
@@ -11,11 +12,21 @@ const Item = Form.Item
 
 class LoginForm extends Component{
 
+static propTypes = {
+
+}
   handleSubmit = (e) =>{
-    const {validateFields,resetFields} = this.props.form
+  // const handlerAjax = this.props
+    console.log(this.props)
+    const {validateFields,resetFields,handlerAjax} = this.props.form
     e.preventDefault()
   validateFields((err,values)=>{
+    const {handlerAjax} = this.props
+      const {username,possword} = values
      if(!err){
+       handlerAjax(username,possword)
+       //成功就发送ajax请求
+
        console.log(values)
      } else {
        message.config({
@@ -55,7 +66,7 @@ const {getFieldDecorator,getFieldValue,validateFirst,resetFields} = this.props.f
         {getFieldDecorator('password',{
           rules:[
             {required:true,message:'密码输入不能为空'},
-            {min:6,message:'输入的位数不能低于6位'},
+            {min:5,message:'输入的位数不能低于6位'},
             {max:18,message:'输入的位数不能大于18位'},
             {pattern:/^[a-zA-Z0-9_]+$/, message:'密码必须是大小写字母数字和下划线'},
 
