@@ -4,26 +4,30 @@
 
 import axios from 'axios'
 
-const ajax = (url,data={},mothod='GET')=> {
+export default function ajax (url,data={},method='GET'){
+  return  new Promise((resolve,reject)=>{
+  let promise = null
 
-  const result = new Promise((resolve,reject)=>{
-  let message = null
-  if(mothod === 'GET'){
+  if(method === 'GET'){
+console.log(data)
+    promise = axios.get(url,{params:data})
 
-    message = axios.get(url,{params:data})
-
-  } else if(mothod === 'POST'){
-    message = axios.post(url,data)
+  } else if(method === 'POST'){
+    promise = axios.post(url,data)
   }
 
-    message
-      .then((res)=>resolve(res.data)
+
+    promise
+      .then((res)=>{return resolve(res.data)
+        console.log(res)}
+
       )
-      .cache((err)=>{
+      .catch((err)=>{
         console.log(err)
         reject('请求失败')
   })
 
   })
+
 
 }
