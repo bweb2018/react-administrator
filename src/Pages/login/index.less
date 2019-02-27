@@ -4,6 +4,7 @@
  background: url("./bg.jpg") no-repeat;
   background-size: cover;
   .login-header{
+
     display: flex;
     align-items: center;
     height:90px;
@@ -18,6 +19,9 @@
     }
   }
   .login-form{
+    position: relative;
+    left:0;
+    top:0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,10 +29,20 @@
     height: 360px;
     background: #fff;
     margin: 100px auto 60px;
+    .login-err{
+      position: absolute;
+
+      color: #fff;
+      font-size: 20px;
+      background: orangered;
+      height: 0px;
+      transition: height 0.5s;
+    }
     h2{
       margin: 40px 0;
       font-size: 40px;
-      color: red;
+      color: #000;
+
     }
     .form{
       width: 60%;
