@@ -13,17 +13,19 @@ const Item = Menu.Item
 
 //  初始化菜单结构
   componentWillMount(){
-
-
     this.menu = this.handlerMenu(menuList)
-
   }
   handlerMenu = (menuList)=> {
-
   return menuList.map(item=>{
-    // console.log(item)
+
     if(item.children){
-      console.log(item.children)
+      const {pathname} = this.props.location
+      console.log(item.key);
+      const result = item.children.find(item => item.key === pathname)
+      if(result){
+            this.openKey = item.key
+          }
+        
       return <SubMenu key= {item.key} title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}>
         {
           this.handlerMenu(item.children)
@@ -43,10 +45,7 @@ const Item = Menu.Item
 }
 
   render(){
-    console.log(this.menu)
-  // const result = this.props.l
-     const result = this.props.location.pathname
-    console.log(result)
+     const {pathname}= this.props.location
     return (
       <div className="left-nav">
         <div >
@@ -58,8 +57,9 @@ const Item = Menu.Item
         </div>
         <Menu
           mode="inline"
-           theme="dark"
-          selectedKeys ={[result]}
+          theme="dark"
+          selectedKeys ={[pathname]}
+          defaultOpenKeys = {[this.openKey]}
         >
           {this.menu}
         </Menu>
