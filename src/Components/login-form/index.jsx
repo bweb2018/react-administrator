@@ -11,11 +11,10 @@ const Item = Form.Item
 
 class LoginForm extends Component{
 
-
   handleSubmit = (e) =>{
+    const {validateFields,resetFields} = this.props.form
     e.preventDefault()
-   this.props.form.validateFields((err,values)=>{
-console.log(err,values)
+  validateFields((err,values)=>{
      if(!err){
        console.log(values)
      } else {
@@ -24,14 +23,12 @@ console.log(err,values)
          top:435
 
        })
-       console.log(Object.values(err));3
+       console.log(Object.values(err));
       const errMsg =  Object.values(err).reduce((prev,curr)=>{
         return prev + curr.errors[0].message+''
        },'')
        message.error(errMsg);
-       this.props.form.resetFields(['password'])
-
-
+       resetFields(['password'])
 
      }
    })
