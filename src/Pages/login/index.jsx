@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import ReactDOM from 'react-dom'
-import {reqLogin} from '../../App'
+import reqLogin from '../../App'
 import LoginForm from '../../Components/login-form'
 import logo from '../../assets/images/logo.png'
 import './index.less'
