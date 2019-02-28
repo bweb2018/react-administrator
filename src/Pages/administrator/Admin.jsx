@@ -10,9 +10,9 @@ import Footer from '../../Components/footer'
 import Home from '../home'
 import Product from '../product'
 import Category from '../category'
-
-
-
+import {getItem} from '../../tools/localstroetool'
+import login from '../login'
+import MemoryTool from '../../tools/memorytool'
 import './index.less'
 
 
@@ -21,7 +21,10 @@ export default class Admin extends Component{
 
 
   render(){
-
+  const user = MemoryTool.user
+    if(!user || !user._id){
+      return <Redirect to="/login"/>
+    }
     return (
         <Row>
           <Col span={4}>

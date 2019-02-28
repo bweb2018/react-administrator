@@ -5,6 +5,9 @@ import {reqLogin} from '../../Api'
 
 import logo from '../../assets/images/logo.png'
 import './index.less'
+import {setItem} from '../../tools/localstroetool'
+import MemoryTool from '../../tools/memorytool'
+
 export default class Login extends Component{
 state = {
 
@@ -13,10 +16,10 @@ state = {
   handlerAjax = async(username,password)=>{
     // console.log(userName,passWord)
     const result = await reqLogin(username,password)
-
-    console.log(result)
     if(result.status === 0){
-    //  请求通过进行跳转到主页面
+    //  登录请求通过进行跳转到主页面,并且保存用户信息
+      setItem(result.data)  //保存到浏览器中
+      MemoryTool.user = result.data //也保存到内存中一份，用来优化后期频繁操作admin页面带来慢的问题，
    this.props.history.replace('/')
 
     } else if(result.status === 1){
