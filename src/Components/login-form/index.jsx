@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-
+import './index.less'
 import {
   Form,
   Icon,
@@ -42,7 +42,7 @@ const {getFieldDecorator,getFieldValue,validateFirst,resetFields} = this.props.f
 
   return (
     <form className="form" onSubmit={this.handleSubmit}>
-      <Item>
+      <Item className="lo-from">
         {getFieldDecorator('username', {
         rules: [
         { required: true, message: '用户名不能为空'},
@@ -53,7 +53,7 @@ const {getFieldDecorator,getFieldValue,validateFirst,resetFields} = this.props.f
           <Input prefix={<Icon type="user"/>} placeholder="请输入用户名" />
           )}
       </Item>
-      <Item>
+      <Item className="lo-from">
         {getFieldDecorator('password',{
           rules:[
             {required:true,message:'密码输入不能为空'},

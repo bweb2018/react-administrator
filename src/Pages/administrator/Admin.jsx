@@ -10,8 +10,6 @@ import Footer from '../../Components/footer'
 import Home from '../home'
 import Product from '../product'
 import Category from '../category'
-import {getItem} from '../../tools/localstroetool'
-import login from '../login'
 import MemoryTool from '../../tools/memorytool'
 import './index.less'
 

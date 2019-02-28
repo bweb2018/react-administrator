@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-import ReactDOM from 'react-dom'
 import {Menu, Icon, Button} from 'antd'
 import {NavLink,withRouter} from 'react-router-dom'
 
