@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 
 import {Route,Switch,Redirect} from 'react-router-dom'
-import {Row,Col,} from 'antd';
+import {Layout} from 'antd';
 
 
 import LeftNav from '../../Components/left-nav'
@@ -16,7 +16,7 @@ import Role from '../role'
 import Bar from '../bar'
 import Line from '../line'
 import Pie from '../pie'
-import './index.less'
+
 
 
 
@@ -24,18 +24,19 @@ export default class Admin extends Component{
 
 
   render(){
+    const { Content, Footer, Sider} = Layout;
   const user = MemoryTool.user
     if(!user || !user._id){
       return <Redirect to="/login"/>
     }
     return (
-        <Row>
-          <Col span={4}>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Sider>
             <LeftNav />
-          </Col>
-          <Col span={20}>
+          </Sider>
+          <Layout>
             <Header />
-            <div className="right-content">
+              <Content style={{margin:'20px'}}>
               <Switch>
                 <Route path='/home' component={Home}/>
                 <Route path='/category' component={Category}/>
@@ -46,10 +47,10 @@ export default class Admin extends Component{
                 <Route path='/charts/line' component={Line}/>
                 <Route path='/charts/pie' component={Pie}/>
               </Switch>
-            </div>
+              </Content>
             <Footer />
-          </Col>
-        </Row>
+          </Layout>
+        </Layout>
     )
   }
 }

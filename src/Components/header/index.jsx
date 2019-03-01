@@ -26,7 +26,6 @@ componentDidMount(){
 }
 
 
-
 componentWillUnmount(){
     clearInterval(this.times)
 }
@@ -35,14 +34,12 @@ componentWillUnmount(){
   showWeather = ()=>{
 
    getJsonp('北京').then((res)=>{
-console.log(res.dayPictureUrl)
       this.setState({
         dayPictureUrl: res.dayPictureUrl, //初始化天气
         weather: res.weather
       })
    })
-     .catch(()=>{})
-
+     .catch((err)=>{ console.log(err)})
 
   }
 
