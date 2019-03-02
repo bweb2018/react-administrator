@@ -10,25 +10,24 @@ import PropTypes from 'prop-types'
 
  componentWillMount(){
    const {setCategory} = this.props
-  // console.log(this.props.setCategory)
-  setCategory(this.props.form)
+   setCategory(this.props.form)
  }
 
 
   render(){
-
-    const {serverData} = this.props
+    const {serverData,showName} = this.props
+    const show = showName ? showName : '0'
+    console.log(showName)
     const {Item} = Form
     const{getFieldDecorator} = this.props.form
     const { Option } = Select;
     return (
       <Form>
         <Item label="所属分类">
-
           {
             getFieldDecorator(
               'parentId',
-              {initialValue:'0'}
+              {initialValue:show }
             )(
               <Select >
               <Option key='0' value="0">一级分类</Option>
@@ -47,7 +46,6 @@ import PropTypes from 'prop-types'
             <Input placeholder="请输入分类名称" />
           )
         }
-
       </Item>
       </Form>
     )
