@@ -2,20 +2,20 @@ import React,{Component} from 'react'
 import {Select  , Form ,Input} from 'antd'
 import PropTypes from 'prop-types'
 
- class AddCategoryForm extends Component{
- static propTypes = {
-   serverData:PropTypes.array.isRequired,
-   setCategory:PropTypes.func.isRequired
- }
+class AddCategoryForm extends Component{
+  static propTypes = {
+    oneCategoryData:PropTypes.array.isRequired,
+    setCategory:PropTypes.func.isRequired
+  }
 
- componentWillMount(){
-   const {setCategory} = this.props
-   setCategory(this.props.form)
- }
+  componentWillMount(){
+    const {setCategory} = this.props
+    setCategory(this.props.form)
+  }
 
 
   render(){
-    const {serverData,showName} = this.props
+    const {oneCategoryData,showName} = this.props
     const show = showName ? showName : '0'
     console.log(showName)
     const {Item} = Form
@@ -30,27 +30,25 @@ import PropTypes from 'prop-types'
               {initialValue:show }
             )(
               <Select >
-              <Option key='0' value="0">一级分类</Option>
-              {serverData.map(item => <Option key={item._id}>{item.name}</Option>)}
+                <Option key='0' value="0">一级分类</Option>
+                {oneCategoryData.map(item => <Option key={item._id}>{item.name}</Option>)}
 
-            </Select>)
+              </Select>)
           }
-
         </Item>
-      <Item label="分类名称">
-        {
-          getFieldDecorator(
-            'categoryName',
-            {}
-          )(
-            <Input placeholder="请输入分类名称" />
-          )
-        }
-      </Item>
+        <Item label="分类名称">
+          {
+            getFieldDecorator(
+              'categoryName',
+              {}
+            )(
+              <Input placeholder="请输入分类名称" />
+            )
+          }
+        </Item>
       </Form>
     )
   }
-  
-}
 
+}
 export default Form.create()(AddCategoryForm)
