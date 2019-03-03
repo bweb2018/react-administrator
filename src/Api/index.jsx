@@ -25,3 +25,6 @@ export const updateCategoryForm = (parentId,categoryName) => ajax(prefix+'/manag
 //获取后台商品分页列表数据
 
 export const reqProductLIst = (pageNum,pageSize) => ajax(prefix+'/manage/product/list',{pageNum,pageSize})
+
+//搜索商品分页列表数据
+export const searchProductLIst = ({pageNum,pageSize,searchType,searchName}) => ajax(prefix+'/manage/product/search',{pageNum,pageSize,[searchType]:searchName})

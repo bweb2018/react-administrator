@@ -1,12 +1,13 @@
 import React,{Component} from 'react'
 import {Card,Table,Button,Icon,Select,Input,message} from 'antd'
 
-import {reqProductLIst} from '../../Api'
+import {reqProductLIst,searchProductLIst} from '../../Api'
 
 export default class Index extends Component{
 
   state = {
-
+    searchType:'productName',
+    searchName:'',
     product:[],
     total:''
   }
@@ -18,10 +19,15 @@ export default class Index extends Component{
   }
 
   //获取商品列表
-
   getProductData = async(pageNum,pageSize)=>{
-      const result = await reqProductLIst(pageNum,pageSize)
-    const {product,total} = this.state
+    const {product,total,searchType,searchName} = this.state
+    let result
+    if(searchName){
+      result = await searchProductLIst({pageNum,pageSize,searchType,searchName})//点击搜索
+      console.log(result)
+    } else {
+      result = await reqProductLIst(pageNum,pageSize)//获取商品列表
+    }
     if(result.status === 0){
       message.success('数据获取成功')
         this.setState({product:result.data.list ,total:result.data.total})
@@ -31,10 +37,18 @@ export default class Index extends Component{
   }
 
   //搜索产品
-  searchProduct = ()=>{
+  searchProduct = (name,value)=>{
+    this.setState({
+     [name]:value,
+    })
+}
+
+  //添加产品
+  addProduct = ()=>{
 
 
   }
+
 
   render(){
     const Option = Select.Option
@@ -61,7 +75,7 @@ export default class Index extends Component{
       width:200,
       render: category => {
         return <div><Button type='primary'>详情</Button>&nbsp;&nbsp;
-                  <Button type='primary'>修改</Button>
+                  <Button type='primary' >修改</Button>
                </div>}
     }];
 
@@ -69,15 +83,15 @@ export default class Index extends Component{
       <Card
         title={
           <div>
-            <Select defaultValue="lucy" style={{ width: 160 }} >
-              <Option value="jack">根据商品名称</Option>
-              <Option value="lucy">根据商品描述</Option>
+            <Select defaultValue="productName" style={{ width: 160 }} onChange ={ value =>{this.searchProduct('searchType',value) }}>
+              <Option value="productName">根据商品名称</Option>
+              <Option value="productDesc">根据商品描述</Option>
             </Select>
-            <Input placeholder="关键字" style={{width:150}}/>
-            <Button type="primary" style={{marginLeft:10}} onClick={this.searchProduct}>搜索</Button>
+            <Input placeholder="关键字" style={{width:150}} onChange ={ e =>{this.searchProduct('searchName',e.target.value) }}/>
+            <Button type="primary" style={{marginLeft:10}} onClick={()=>this.getProductData(1,3)}>搜索</Button>
           </div>
         }
-        extra={<div><Button type='primary'><Icon type="plus"/>添加产品</Button></div>}
+        extra={<div><Button type='primary' onClick={()=>this.props.history.push('/product/saveupdate')}><Icon type="plus"/>添加产品</Button></div>}
      >
         <Table
           columns={columns}
