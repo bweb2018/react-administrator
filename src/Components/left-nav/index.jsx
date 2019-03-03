@@ -20,17 +20,14 @@ const Item = Menu.Item
     if(item.children){
       const {pathname} = this.props.location
       console.log(item.key);
-      const result = item.children.find(item => item.key === pathname)
+      const result = item.children.find(item => pathname.indexOf(item.key) === 0)
       if(result){
             this.openKey = item.key
           }
-        
       return <SubMenu key= {item.key} title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}>
         {
           this.handlerMenu(item.children)
-
         }
-
       </SubMenu >
     }else {
       return <Item key={item.key}>
@@ -42,9 +39,10 @@ const Item = Menu.Item
     }
   })
 }
-
   render(){
-     const {pathname}= this.props.location
+     let {pathname}= this.props.location
+      if (pathname.indexOf('/product') === 0) pathname = '/product'
+
     return (
       <div className="left-nav">
         <div >
