@@ -21,3 +21,7 @@ export const reqAddCategory = (parentId,categoryName) => ajax(prefix+'/manage/ca
 //向后台发送数据并更新
 
 export const updateCategoryForm = (parentId,categoryName) => ajax(prefix+'/manage/category/update',{parentId,categoryName},'POST')
+
+//获取后台商品分页列表数据
+
+export const reqProductLIst = (pageNum,pageSize) => ajax(prefix+'/manage/product/list',{pageNum,pageSize})

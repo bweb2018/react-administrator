@@ -182,8 +182,9 @@ class Category extends Component{
                      showSizeChanger:true,
                      showQuickJumper:true,
                      pageSizeOptions:['3','6','9','12'],
-                     loading:{}
+
                    }}
+                 loading={false}
           />,
           <Modal
             title="更新分类"
