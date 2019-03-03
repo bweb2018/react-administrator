@@ -12,7 +12,8 @@ class Category extends Component{
     visible:false , //初始添加分类对话框
     updateShow:false,
     category:{},
-    showDefaultState:'0'
+    showDefaultState:'0',
+    isTwoLoadingIcon:true
   }
   componentWillMount(){
     const{showDefaultState} = this.state
@@ -29,7 +30,7 @@ class Category extends Component{
              onClick={()=>{this.setState({category,updateShow:true})
              }}>修改名称</a>&nbsp;&nbsp;&nbsp;&nbsp;
           <a href="javascript:void (0)" onClick={ ()=>{
-            this.setState({showDefaultState:category._id})
+            this.setState({showDefaultState:category._id,category})
             this.handlerSerData(category._id)
           }}>查看子品类</a>
         </div>
@@ -58,28 +59,6 @@ class Category extends Component{
     this.handlerSerData('0')
   }
 
-  //显示一个一级下所有的分类
-  showOneCategory = async(category)=>{
-    // {parentId: "0", _id: "5c789ad2a4ddde3ad8bc0766", name: "qqqqq", __v: 0}
-    // 获取当前点击查看分类
-    const {_id,name} = category
-    this.setState({
-      category
-    })
-    const result = await getServerData(_id)
-
-    if(result.status === 0){
-      //  更新二级数组分类
-      this.setState({
-        twoCategoryData:result.data,
-        showDefaultState:result.data._id
-      })
-    } else {
-      console.log('数去请求失败')
-    }
-    // 向服务器获取一级下的所有二级分类
-  }
-
   //点击按钮添加品类
   addCategory = ()=>{
     this.setState({
@@ -105,10 +84,11 @@ class Category extends Component{
             updateCategory.oneCategoryData=[...this.state.oneCategoryData ,result.data]
           resetFields()
         } else {
-        if(showDefaultState === parentId){
+
+
           updateCategory.twoCategoryData = [...this.state.twoCategoryData,result.data]
-          resetFields()
-          }
+
+
         }
       } else {
         message.error('添加失败')
@@ -118,6 +98,7 @@ class Category extends Component{
       message.warn('输入内容不能为空')
       console.log('获取用户输入内容为空')
     }
+    resetFields()
     this.setState(updateCategory)
   }
 
@@ -127,11 +108,20 @@ class Category extends Component{
     const result = await getServerData(parentId)
     if(result.status === 0){
       if(parentId === '0'){
-        this.setState({
-          oneCategoryData:result.data
-        })
+        this.setState({oneCategoryData:result.data})//请求一级分类数据
       } else {
-          this.setState({twoCategoryData:result.data})
+        if (result.data.length) {
+          this.setState({
+            twoCategoryData: result.data,
+            isTwoLoadingIcon: true
+          })//请求二级分类数据
+        } else {
+          //防止之前有数据对loading有影响
+          this.setState({
+            twoCategoryData,
+            isTwoLoadingIcon: false
+          })
+        }
       }
     } else {
       console.log('数据请求失败')
@@ -168,9 +158,10 @@ class Category extends Component{
   }
   render(){
     const Option = Select.Option
-    const {oneCategoryData,visible,updateShow,category,twoCategoryData,showDefaultState} = this.state
-    const showData = showDefaultState === '0'? oneCategoryData:twoCategoryData
-
+    const {oneCategoryData,visible,updateShow,category,twoCategoryData,showDefaultState,isTwoLoadingIcon} = this.state
+    const isDataShow = showDefaultState === '0'
+    const showData = isDataShow ? oneCategoryData:twoCategoryData
+    const isLoadingShow = isDataShow ? oneCategoryData.length === 0 : isTwoLoadingIcon &&twoCategoryData.length === 0
     const showName = category.name
     return (
       <div className="content">
@@ -185,7 +176,14 @@ class Category extends Component{
           <Table rowKey="_id"
                  columns={showDefaultState === '0'? this.columns[0]:this.columns[1]}
                  dataSource={showData}
-                 pagination={{pageSize:3,showSizeChanger:true}}
+                 pagination={
+                   {
+                     pageSize:3,
+                     showSizeChanger:true,
+                     showQuickJumper:true,
+                     pageSizeOptions:['3','6','9','12'],
+                     loading:{}
+                   }}
           />,
           <Modal
             title="更新分类"
