@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
-import {Select  , Form ,Input} from 'antd'
+import { Form ,Input} from 'antd'
 import PropTypes from 'prop-types'
-import {updateCategoryForm} from '../../Api'
  class UpdateCategoryForm extends Component{
  static propTypes = {
    currentCategoryName:PropTypes.string.isRequired,

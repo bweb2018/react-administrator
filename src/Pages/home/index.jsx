@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-import {Card} from "antd";
 import './index.css'
 export default class Home extends Component{
 

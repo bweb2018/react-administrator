@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Modal,Card ,Row ,Col,Button,Table,Pagination,Select , message,Form,Icon} from 'antd'
+import {Modal,Card ,Button,Table, message,Form,Icon} from 'antd'
 import './index.less'
 import {getServerData,reqAddCategory,updateCategoryForm} from '../../Api'
 import AddCategoryForm from '../../Components/addcategory-form'
@@ -16,7 +16,6 @@ class Category extends Component{
     isTwoLoadingIcon:true
   }
   componentWillMount(){
-    const{showDefaultState} = this.state
     this.columns = [[{
       title: '分类名称',
       dataIndex: 'name',
@@ -69,7 +68,6 @@ class Category extends Component{
   //添加品类确认按钮
   submitCategory = async()=>{
 
-    const {twoCategoryData,showDefaultState} = this.state
     const {getFieldsValue ,resetFields} = this.form
     const {parentId,categoryName} = getFieldsValue()
     const updateCategory = {visible:false}
@@ -104,7 +102,7 @@ class Category extends Component{
 
   //请求后台数据
   handlerSerData = async(parentId)=>{
-    const{oneCategoryData,twoCategoryData,showDefaultState} = this.state
+    const{twoCategoryData} = this.state
     const result = await getServerData(parentId)
     if(result.status === 0){
       if(parentId === '0'){
@@ -157,11 +155,11 @@ class Category extends Component{
     }
   }
   render(){
-    const Option = Select.Option
-    const {oneCategoryData,visible,updateShow,category,twoCategoryData,showDefaultState,isTwoLoadingIcon} = this.state
+    // const Option = Select.Option
+    const {oneCategoryData,visible,updateShow,category,twoCategoryData,showDefaultState} = this.state
     const isDataShow = showDefaultState === '0'
     const showData = isDataShow ? oneCategoryData:twoCategoryData
-    const isLoadingShow = isDataShow ? oneCategoryData.length === 0 : isTwoLoadingIcon &&twoCategoryData.length === 0
+    // const isLoadingShow = isDataShow ? oneCategoryData.length === 0 : isTwoLoadingIcon &&twoCategoryData.length === 0
     const showName = category.name
     return (
       <div className="content">

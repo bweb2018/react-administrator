@@ -103,7 +103,7 @@ componentWillUnmount(){
           <Col span={6} className="header-bottom-left"><p>{result}</p></Col>
           <Col span={18} className="header-bottom-right">
             {getDate}
-            <img src={dayPictureUrl}></img>{weather}
+            <img src={dayPictureUrl} alt="img"/>{weather}
           </Col>
         </Row>
       </div>

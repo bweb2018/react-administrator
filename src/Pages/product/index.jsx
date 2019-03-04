@@ -1,9 +1,8 @@
 import React,{Component} from 'react'
 import {Card,Table,Button,Icon,Select,Input,message} from 'antd'
-
 import {reqProductLIst,searchProductLIst} from '../../Api'
 
-export default class Index extends Component{
+export default  class Index extends Component{
 
   state = {
     searchType:'productName',
@@ -20,7 +19,7 @@ export default class Index extends Component{
 
   //获取商品列表
   getProductData = async(pageNum,pageSize)=>{
-    const {product,total,searchType,searchName} = this.state
+    const {searchType,searchName} = this.state
     let result
     if(searchName){
       result = await searchProductLIst({pageNum,pageSize,searchType,searchName})//点击搜索
@@ -31,6 +30,7 @@ export default class Index extends Component{
     if(result.status === 0){
       message.success('数据获取成功')
         this.setState({product:result.data.list ,total:result.data.total})
+
     } else {
       message.error('数据获取失败')
     }
@@ -52,7 +52,6 @@ export default class Index extends Component{
 
   render(){
     const Option = Select.Option
-    const Search = Input.Search
     const {product,total} = this.state
     const columns = [{
       title: '商品名称',
@@ -68,14 +67,16 @@ export default class Index extends Component{
       title: '状态',
       dataIndex: 'state',
       width:200,
-      render: category => {return <div><Button type='primary'>上架</Button>&nbsp;&nbsp;已下架</div>}
+      render: product => {return <div><Button type='primary'>上架</Button>&nbsp;&nbsp;已下架</div>}
     }, {
       title: '操作',
-      dataIndex: 'operation',
+      // dataIndex: 'operation',  写上就是key对应的value 不写就是对象
       width:200,
-      render: category => {
-        return <div><Button type='primary'>详情</Button>&nbsp;&nbsp;
-                  <Button type='primary' >修改</Button>
+      render: (product)=> {
+        return <div>
+                  <Button type='primary'>详情</Button>&nbsp;&nbsp;
+
+                  <Button type='primary' onClick={()=>this.props.history.push('/product/saveupdate',{product})}>修改</Button>
                </div>}
     }];
 
@@ -107,6 +108,7 @@ export default class Index extends Component{
               onChange:this.getProductData,
               onShowSizeChange:this.getProductData
             }}
+          rowKey='_id'
           loading = {product.length === 0}
         />
       </Card>
@@ -114,3 +116,4 @@ export default class Index extends Component{
   }
 
 }
+

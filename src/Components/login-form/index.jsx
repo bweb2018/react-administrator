@@ -38,7 +38,7 @@ static propTypes = {
    })
   }
   render() {
-const {getFieldDecorator,getFieldValue,validateFirst,resetFields} = this.props.form
+const {getFieldDecorator} = this.props.form
 
   return (
     <form className="form" onSubmit={this.handleSubmit}>

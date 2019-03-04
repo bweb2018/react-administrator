@@ -6,7 +6,6 @@ import {Layout} from 'antd';
 
 import LeftNav from '../../Components/left-nav'
 import Header from '../../Components/header'
-import Footer from '../../Components/footer'
 import Home from '../home'
 import Product from '../product/product'
 import Category from '../category'
